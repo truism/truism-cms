@@ -1,6 +1,6 @@
 package site.liuming.truismcms.exceptions;
 
-public class HttpException {
+public class HttpException extends RuntimeException {
 
   private int code;
 
