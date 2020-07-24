@@ -2,10 +2,23 @@ package site.liuming.truismcms.exceptions;
 
 public class HttpException extends RuntimeException {
 
-  private int code;
+  protected int code = 500;
 
-  private int httpStatusCode;
+  protected int httpStatusCode;
 
-  private String message;
+  public int getCode() {
+    return code;
+  }
 
+  public void setCode(int code) {
+    this.code = code;
+  }
+
+  public int getHttpStatusCode() {
+    return httpStatusCode;
+  }
+
+  public void setHttpStatusCode(int httpStatusCode) {
+    this.httpStatusCode = httpStatusCode;
+  }
 }
