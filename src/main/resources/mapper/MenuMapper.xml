@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.liuming.truismcms.web.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.Role">
+<mapper namespace="site.liuming.truismcms.web.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.Menu">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="router" jdbcType="VARCHAR" property="router" />
+    <result column="icon_cls" jdbcType="VARCHAR" property="iconCls" />
+    <result column="keep_alive" jdbcType="TINYINT" property="keepAlive" />
+    <result column="require_auth" jdbcType="TINYINT" property="requireAuth" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, nick_name, publish_time, update_time
+    id, name, component, router, icon_cls, keep_alive, require_auth, parent_id
   </sql>
-  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.RoleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.MenuExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_role
+    from tb_menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,70 +89,90 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_role
+    from tb_menu
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tb_role
+    delete from tb_menu
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.RoleExample">
-    delete from tb_role
+  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.MenuExample">
+    delete from tb_menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Role">
+  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Menu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_role (name, nick_name, publish_time, 
-      update_time)
-    values (#{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    insert into tb_menu (name, component, router, 
+      icon_cls, keep_alive, require_auth, 
+      parent_id)
+    values (#{name,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{router,jdbcType=VARCHAR}, 
+      #{iconCls,jdbcType=VARCHAR}, #{keepAlive,jdbcType=TINYINT}, #{requireAuth,jdbcType=TINYINT}, 
+      #{parentId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.Role">
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.Menu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_role
+    insert into tb_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
         name,
       </if>
-      <if test="nickName != null">
-        nick_name,
+      <if test="component != null">
+        component,
       </if>
-      <if test="publishTime != null">
-        publish_time,
+      <if test="router != null">
+        router,
       </if>
-      <if test="updateTime != null">
-        update_time,
+      <if test="iconCls != null">
+        icon_cls,
+      </if>
+      <if test="keepAlive != null">
+        keep_alive,
+      </if>
+      <if test="requireAuth != null">
+        require_auth,
+      </if>
+      <if test="parentId != null">
+        parent_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
-        #{nickName,jdbcType=VARCHAR},
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
       </if>
-      <if test="publishTime != null">
-        #{publishTime,jdbcType=TIMESTAMP},
+      <if test="router != null">
+        #{router,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="iconCls != null">
+        #{iconCls,jdbcType=VARCHAR},
+      </if>
+      <if test="keepAlive != null">
+        #{keepAlive,jdbcType=TINYINT},
+      </if>
+      <if test="requireAuth != null">
+        #{requireAuth,jdbcType=TINYINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.RoleExample" resultType="java.lang.Long">
-    select count(*) from tb_role
+  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.MenuExample" resultType="java.lang.Long">
+    select count(*) from tb_menu
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_role
+    update tb_menu
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -157,14 +180,23 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.nickName != null">
-        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      <if test="record.component != null">
+        component = #{record.component,jdbcType=VARCHAR},
       </if>
-      <if test="record.publishTime != null">
-        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      <if test="record.router != null">
+        router = #{record.router,jdbcType=VARCHAR},
       </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      <if test="record.iconCls != null">
+        icon_cls = #{record.iconCls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keepAlive != null">
+        keep_alive = #{record.keepAlive,jdbcType=TINYINT},
+      </if>
+      <if test="record.requireAuth != null">
+        require_auth = #{record.requireAuth,jdbcType=TINYINT},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,40 +204,55 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_role
+    update tb_menu
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      nick_name = #{record.nickName,jdbcType=VARCHAR},
-      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      component = #{record.component,jdbcType=VARCHAR},
+      router = #{record.router,jdbcType=VARCHAR},
+      icon_cls = #{record.iconCls,jdbcType=VARCHAR},
+      keep_alive = #{record.keepAlive,jdbcType=TINYINT},
+      require_auth = #{record.requireAuth,jdbcType=TINYINT},
+      parent_id = #{record.parentId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.web.pojo.Role">
-    update tb_role
+  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.web.pojo.Menu">
+    update tb_menu
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
-        nick_name = #{nickName,jdbcType=VARCHAR},
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
       </if>
-      <if test="publishTime != null">
-        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      <if test="router != null">
+        router = #{router,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="iconCls != null">
+        icon_cls = #{iconCls,jdbcType=VARCHAR},
+      </if>
+      <if test="keepAlive != null">
+        keep_alive = #{keepAlive,jdbcType=TINYINT},
+      </if>
+      <if test="requireAuth != null">
+        require_auth = #{requireAuth,jdbcType=TINYINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.web.pojo.Role">
-    update tb_role
+  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.web.pojo.Menu">
+    update tb_menu
     set name = #{name,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      component = #{component,jdbcType=VARCHAR},
+      router = #{router,jdbcType=VARCHAR},
+      icon_cls = #{iconCls,jdbcType=VARCHAR},
+      keep_alive = #{keepAlive,jdbcType=TINYINT},
+      require_auth = #{requireAuth,jdbcType=TINYINT},
+      parent_id = #{parentId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -13,7 +13,7 @@ import site.liuming.truismcms.vo.LoginUserVo;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "用户操作接口", tags = {"用户接口"})
+@Api(value = "用户操作接口", tags = {"用户操作接口"})
 public class UserController {
 
     @Autowired
@@ -21,19 +21,14 @@ public class UserController {
 
 
     @ApiOperation(value = "登录")
-    @ApiImplicitParam(name = "user", value = "用户", required = true)
     @PostMapping("/login")
     public UnifyResponse<LoginUserVo> login(@RequestBody User user) {
         return userService.login(user);
     }
 
-    @GetMapping("/info/{token}")
-    public UnifyResponse<User> getUserInfo(@PathVariable String token) {
-        return userService.getUserInfo(token);
-    }
 
     @PostMapping("/logout")
-    public UnifyResponse logout() {
+    public UnifyResponse logout(User user) {
         return UnifyResponseFactory.success("退出成功");
     }
 

@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
 import site.liuming.truismcms.exceptions.NotFoundException;
-import site.liuming.truismcms.web.mapper.UserMapper;
-import site.liuming.truismcms.web.pojo.User;
 import site.liuming.truismcms.utils.JwtToken;
 import site.liuming.truismcms.vo.LoginUserVo;
+import site.liuming.truismcms.web.mapper.UserMapper;
+import site.liuming.truismcms.web.pojo.User;
 
 import java.util.Objects;
 
@@ -27,10 +27,8 @@ public class UserService {
         String token = JwtToken.getToken(existUser);
         LoginUserVo loginUserVo = new LoginUserVo(user, token);
         return UnifyResponseFactory.success(loginUserVo);
+
     }
 
-    public UnifyResponse<User> getUserInfo(String token) {
-        User user = userMapper.getUserInfo(token);
-        return UnifyResponseFactory.success(user);
-    }
+
 }

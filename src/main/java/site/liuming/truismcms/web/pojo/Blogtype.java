@@ -2,27 +2,27 @@ package site.liuming.truismcms.web.pojo;
 
 import java.io.Serializable;
 
-public class UserRole implements Serializable {
-    private Long roleId;
+public class Blogtype implements Serializable {
+    private Long blogId;
 
-    private Long userId;
+    private Long typeId;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getRoleId() {
-        return roleId;
+    public Long getBlogId() {
+        return blogId;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setBlogId(Long blogId) {
+        this.blogId = blogId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getTypeId() {
+        return typeId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 
     @Override
@@ -31,8 +31,8 @@ public class UserRole implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", roleId=").append(roleId);
-        sb.append(", userId=").append(userId);
+        sb.append(", blogId=").append(blogId);
+        sb.append(", typeId=").append(typeId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

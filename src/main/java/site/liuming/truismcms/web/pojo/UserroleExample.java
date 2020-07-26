@@ -3,14 +3,14 @@ package site.liuming.truismcms.web.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRoleExample {
+public class UserroleExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UserRoleExample() {
+    public UserroleExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

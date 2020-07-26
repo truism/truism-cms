@@ -1,10 +1,9 @@
 package site.liuming.truismcms.web.mapper;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import site.liuming.truismcms.web.pojo.Role;
 import site.liuming.truismcms.web.pojo.RoleExample;
-
-import java.util.List;
 
 public interface RoleMapper {
     long countByExample(RoleExample example);

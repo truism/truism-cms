@@ -2,7 +2,7 @@ package site.liuming.truismcms.web.pojo;
 
 import java.io.Serializable;
 
-public class BlogTag implements Serializable {
+public class Blogtag implements Serializable {
     private Long blogId;
 
     private Long tagId;

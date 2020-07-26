@@ -185,7 +185,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <select id="selectByName" resultType="site.liuming.truismcms.web.pojo.User">
+      select * from tb_user where username = #{user.username} limit 0,1;
+   </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update tb_user
     <set>
       <if test="record.id != null">
@@ -285,5 +288,4 @@
       salt = #{salt,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
 </mapper>

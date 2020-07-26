@@ -2,9 +2,11 @@ package site.liuming.truismcms.web.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import site.liuming.truismcms.web.pojo.User;
 import site.liuming.truismcms.web.pojo.UserExample;
 
+@Repository
 public interface UserMapper {
     long countByExample(UserExample example);
 
@@ -27,4 +29,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User selectByName(@Param("user") User user);
 }

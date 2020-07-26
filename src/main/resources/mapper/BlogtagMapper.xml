@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.liuming.truismcms.web.mapper.BlogTagMapper">
-  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.BlogTag">
+<mapper namespace="site.liuming.truismcms.web.mapper.BlogtagMapper">
+  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.Blogtag">
     <result column="blog_id" jdbcType="BIGINT" property="blogId" />
     <result column="tag_id" jdbcType="BIGINT" property="tagId" />
   </resultMap>
@@ -66,7 +66,7 @@
   <sql id="Base_Column_List">
     blog_id, tag_id
   </sql>
-  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.BlogTagExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.BlogtagExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -80,17 +80,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.BlogTagExample">
+  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.BlogtagExample">
     delete from tb_blog_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.BlogTag">
+  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Blogtag">
     insert into tb_blog_tag (blog_id, tag_id)
     values (#{blogId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.BlogTag">
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.Blogtag">
     insert into tb_blog_tag
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="blogId != null">
@@ -109,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.BlogTagExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.BlogtagExample" resultType="java.lang.Long">
     select count(*) from tb_blog_tag
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

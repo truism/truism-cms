@@ -3,14 +3,14 @@ package site.liuming.truismcms.web.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlogTagExample {
+public class BlogtagExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public BlogTagExample() {
+    public BlogtagExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
