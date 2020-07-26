@@ -1,10 +1,12 @@
-package site.liuming.truismcms.sys.mapper;
+package site.liuming.truismcms.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import site.liuming.truismcms.sys.pojo.Menu;
 import site.liuming.truismcms.sys.pojo.MenuExample;
 
+@Repository
 public interface MenuMapper {
     int countByExample(MenuExample example);
 
@@ -27,4 +29,6 @@ public interface MenuMapper {
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    List<Menu> selectAll();
 }

@@ -2,9 +2,9 @@ package site.liuming.truismcms.exceptions;
 
 public class HttpException extends RuntimeException {
 
-  protected int code = 500;
+  protected int code = 6001;
 
-  protected int httpStatusCode;
+  protected int httpStatusCode = 500;
 
   public int getCode() {
     return code;

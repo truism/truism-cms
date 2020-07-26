@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.liuming.truismcms.mapper.RoleMenuMapper">
-  <resultMap id="BaseResultMap" type="site.liuming.truismcms.sys.pojo.RoleMenu">
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="menu_id" jdbcType="INTEGER" property="menuId" />
+<mapper namespace="site.liuming.truismcms.mapper.SupplierMapper">
+  <resultMap id="BaseResultMap" type="site.liuming.truismcms.sys.pojo.Supplier">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="linkman" jdbcType="VARCHAR" property="linkman" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, menu_id
+    id, name, linkman, mobile, remark
   </sql>
-  <select id="selectByExample" parameterType="site.liuming.truismcms.sys.pojo.RoleMenuExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="site.liuming.truismcms.sys.pojo.SupplierExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from role_menu
+    from supplier
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,56 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from role_menu
-    where role_id = #{roleId,jdbcType=INTEGER}
+    from supplier
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from role_menu
-    where role_id = #{roleId,jdbcType=INTEGER}
+    delete from supplier
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="site.liuming.truismcms.sys.pojo.RoleMenuExample">
-    delete from role_menu
+  <delete id="deleteByExample" parameterType="site.liuming.truismcms.sys.pojo.SupplierExample">
+    delete from supplier
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="site.liuming.truismcms.sys.pojo.RoleMenu">
-    insert into role_menu (role_id, menu_id)
-    values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="site.liuming.truismcms.sys.pojo.Supplier">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into supplier (name, linkman, mobile, 
+      remark)
+    values (#{name,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="site.liuming.truismcms.sys.pojo.RoleMenu">
-    insert into role_menu
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.sys.pojo.Supplier">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into supplier
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        role_id,
+      <if test="name != null">
+        name,
       </if>
-      <if test="menuId != null">
-        menu_id,
+      <if test="linkman != null">
+        linkman,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="menuId != null">
-        #{menuId,jdbcType=INTEGER},
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="site.liuming.truismcms.sys.pojo.RoleMenuExample" resultType="java.lang.Integer">
-    select count(*) from role_menu
+  <select id="countByExample" parameterType="site.liuming.truismcms.sys.pojo.SupplierExample" resultType="java.lang.Integer">
+    select count(*) from supplier
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update role_menu
+    update supplier
     <set>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.menuId != null">
-        menu_id = #{record.menuId,jdbcType=INTEGER},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkman != null">
+        linkman = #{record.linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -140,25 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update role_menu
-    set role_id = #{record.roleId,jdbcType=INTEGER},
-      menu_id = #{record.menuId,jdbcType=INTEGER}
+    update supplier
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      linkman = #{record.linkman,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.sys.pojo.RoleMenu">
-    update role_menu
+  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.sys.pojo.Supplier">
+    update supplier
     <set>
-      <if test="menuId != null">
-        menu_id = #{menuId,jdbcType=INTEGER},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        linkman = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
-    where role_id = #{roleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.sys.pojo.RoleMenu">
-    update role_menu
-    set menu_id = #{menuId,jdbcType=INTEGER}
-    where role_id = #{roleId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.sys.pojo.Supplier">
+    update supplier
+    set name = #{name,jdbcType=VARCHAR},
+      linkman = #{linkman,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

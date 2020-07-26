@@ -32,9 +32,9 @@
     <!--  XML生成路径  -->
     <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
     <!--  接口生成路径  -->
-    <javaClientGenerator targetPackage="site.liuming.truismcms.sys.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+    <javaClientGenerator targetPackage="site.liuming.truismcms.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
     <!--生成全部表tableName设为%-->
-    <table tableName="%">
+    <table tableName="supplier">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
     </table>
 </context>

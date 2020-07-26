@@ -1,4 +1,4 @@
-package site.liuming.truismcms.sys.mapper;
+package site.liuming.truismcms.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;

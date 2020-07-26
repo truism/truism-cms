@@ -9,4 +9,15 @@ server:
   port:
     8080
 
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath*:site/**/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+truism:
+  cms:
+    security:
+     jwt-key: truism maybe
+     expired-in: 6400
