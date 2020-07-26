@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.liuming.truismcms.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="site.liuming.truismcms.sys.pojo.User">
+<mapper namespace="site.liuming.truismcms.web.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.User">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="phone" jdbcType="INTEGER" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="sign_in_time" jdbcType="TIMESTAMP" property="signInTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="valid" jdbcType="BIT" property="valid" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,16 +72,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, token, username, password, nickname, enable, email, phone, address, 
-    create_time, update_time, delete_time
+    id, username, password, phone, email, sign_in_time, update_time, avatar, valid, salt
   </sql>
-  <select id="selectByExample" parameterType="site.liuming.truismcms.sys.pojo.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from tb_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -95,133 +91,105 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from tb_user
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from user
+    delete from tb_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="site.liuming.truismcms.sys.pojo.UserExample">
-    delete from user
+  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.UserExample">
+    delete from tb_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="site.liuming.truismcms.sys.pojo.User">
+  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (user_id, token, username, 
-      password, nickname, enable, 
-      email, phone, address, 
-      create_time, update_time, delete_time
-      )
-    values (#{userId,jdbcType=BIGINT}, #{token,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, 
-      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+    insert into tb_user (username, password, phone, 
+      email, sign_in_time, update_time, 
+      avatar, valid, salt)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=INTEGER}, 
+      #{email,jdbcType=VARCHAR}, #{signInTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{avatar,jdbcType=VARCHAR}, #{valid,jdbcType=BIT}, #{salt,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="site.liuming.truismcms.sys.pojo.User">
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user
+    insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="token != null">
-        token,
-      </if>
       <if test="username != null">
         username,
       </if>
       <if test="password != null">
         password,
       </if>
-      <if test="nickname != null">
-        nickname,
-      </if>
-      <if test="enable != null">
-        enable,
+      <if test="phone != null">
+        phone,
       </if>
       <if test="email != null">
         email,
       </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="signInTime != null">
+        sign_in_time,
       </if>
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="deleteTime != null">
-        delete_time,
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="valid != null">
+        valid,
+      </if>
+      <if test="salt != null">
+        salt,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
-      </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null">
-        #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="enable != null">
-        #{enable,jdbcType=BIT},
+      <if test="phone != null">
+        #{phone,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="signInTime != null">
+        #{signInTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleteTime != null">
-        #{deleteTime,jdbcType=TIMESTAMP},
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="site.liuming.truismcms.sys.pojo.UserExample" resultType="java.lang.Integer">
-    select count(*) from user
+  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.UserExample" resultType="java.lang.Long">
+    select count(*) from tb_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update tb_user
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=BIGINT},
-      </if>
-      <if test="record.token != null">
-        token = #{record.token,jdbcType=VARCHAR},
       </if>
       <if test="record.username != null">
         username = #{record.username,jdbcType=VARCHAR},
@@ -229,29 +197,26 @@
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
       </if>
-      <if test="record.nickname != null">
-        nickname = #{record.nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.enable != null">
-        enable = #{record.enable,jdbcType=BIT},
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=INTEGER},
       </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.signInTime != null">
+        sign_in_time = #{record.signInTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.deleteTime != null">
-        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valid != null">
+        valid = #{record.valid,jdbcType=BIT},
+      </if>
+      <if test="record.salt != null">
+        salt = #{record.salt,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -259,90 +224,66 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update tb_user
     set id = #{record.id,jdbcType=BIGINT},
-      user_id = #{record.userId,jdbcType=BIGINT},
-      token = #{record.token,jdbcType=VARCHAR},
       username = #{record.username,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARCHAR},
-      enable = #{record.enable,jdbcType=BIT},
+      phone = #{record.phone,jdbcType=INTEGER},
       email = #{record.email,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      sign_in_time = #{record.signInTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=BIT},
+      salt = #{record.salt,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.sys.pojo.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.web.pojo.User">
+    update tb_user
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="token != null">
-        token = #{token,jdbcType=VARCHAR},
-      </if>
       <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null">
-        nickname = #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="enable != null">
-        enable = #{enable,jdbcType=BIT},
+      <if test="phone != null">
+        phone = #{phone,jdbcType=INTEGER},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="signInTime != null">
+        sign_in_time = #{signInTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleteTime != null">
-        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        valid = #{valid,jdbcType=BIT},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.sys.pojo.User">
-    update user
-    set user_id = #{userId,jdbcType=BIGINT},
-      token = #{token,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.web.pojo.User">
+    update tb_user
+    set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=BIT},
+      phone = #{phone,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
+      sign_in_time = #{signInTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      avatar = #{avatar,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=BIT},
+      salt = #{salt,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="selectByName" resultType="site.liuming.truismcms.sys.pojo.User">
-      select * from user where username = #{user.username} and password = #{user.password}
-  </select>
-
-  <select id="getUserInfo" resultType="site.liuming.truismcms.sys.pojo.User">
-    select * from user where token = #{token}
-  </select>
-
 
 </mapper>

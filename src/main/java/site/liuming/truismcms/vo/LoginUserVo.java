@@ -1,6 +1,6 @@
 package site.liuming.truismcms.vo;
 
-import site.liuming.truismcms.sys.pojo.User;
+import site.liuming.truismcms.web.pojo.User;
 
 public class LoginUserVo {
 

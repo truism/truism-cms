@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.liuming.truismcms.web.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.Comment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="blog_id" jdbcType="BIGINT" property="blogId" />
+    <result column="like_count" jdbcType="BIGINT" property="likeCount" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="valid" jdbcType="BIT" property="valid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="site.liuming.truismcms.web.pojo.Comment">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, blog_id, like_count, publish_time, parent_id, user_email, valid
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="site.liuming.truismcms.web.pojo.CommentExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.CommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.CommentExample">
+    delete from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Comment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_comment (blog_id, like_count, publish_time, 
+      parent_id, user_email, valid, 
+      content)
+    values (#{blogId,jdbcType=BIGINT}, #{likeCount,jdbcType=BIGINT}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{parentId,jdbcType=BIGINT}, #{userEmail,jdbcType=VARCHAR}, #{valid,jdbcType=BIT}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.Comment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="likeCount != null">
+        like_count,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="valid != null">
+        valid,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=BIGINT},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.CommentExample" resultType="java.lang.Long">
+    select count(*) from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_comment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.blogId != null">
+        blog_id = #{record.blogId,jdbcType=BIGINT},
+      </if>
+      <if test="record.likeCount != null">
+        like_count = #{record.likeCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.publishTime != null">
+        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userEmail != null">
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valid != null">
+        valid = #{record.valid,jdbcType=BIT},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_comment
+    set id = #{record.id,jdbcType=BIGINT},
+      blog_id = #{record.blogId,jdbcType=BIGINT},
+      like_count = #{record.likeCount,jdbcType=BIGINT},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=BIT},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_comment
+    set id = #{record.id,jdbcType=BIGINT},
+      blog_id = #{record.blogId,jdbcType=BIGINT},
+      like_count = #{record.likeCount,jdbcType=BIGINT},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="site.liuming.truismcms.web.pojo.Comment">
+    update tb_comment
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=BIGINT},
+      </if>
+      <if test="likeCount != null">
+        like_count = #{likeCount,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        valid = #{valid,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="site.liuming.truismcms.web.pojo.Comment">
+    update tb_comment
+    set blog_id = #{blogId,jdbcType=BIGINT},
+      like_count = #{likeCount,jdbcType=BIGINT},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=BIT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.web.pojo.Comment">
+    update tb_comment
+    set blog_id = #{blogId,jdbcType=BIGINT},
+      like_count = #{likeCount,jdbcType=BIGINT},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

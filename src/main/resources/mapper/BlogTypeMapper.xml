@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.liuming.truismcms.web.mapper.UserRoleMapper">
-  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.UserRole">
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+<mapper namespace="site.liuming.truismcms.web.mapper.BlogTypeMapper">
+  <resultMap id="BaseResultMap" type="site.liuming.truismcms.web.pojo.BlogType">
+    <result column="blog_id" jdbcType="BIGINT" property="blogId" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, role_id
+    blog_id, type_id
   </sql>
-  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.UserRoleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="site.liuming.truismcms.web.pojo.BlogTypeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user_role
+    from tb_blog_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -80,49 +80,49 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.UserRoleExample">
-    delete from user_role
+  <delete id="deleteByExample" parameterType="site.liuming.truismcms.web.pojo.BlogTypeExample">
+    delete from tb_blog_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.UserRole">
-    insert into user_role (user_id, role_id)
-    values (#{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.BlogType">
+    insert into tb_blog_type (blog_id, type_id)
+    values (#{blogId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.UserRole">
-    insert into user_role
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.BlogType">
+    insert into tb_blog_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
+      <if test="blogId != null">
+        blog_id,
       </if>
-      <if test="roleId != null">
-        role_id,
+      <if test="typeId != null">
+        type_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
+      <if test="blogId != null">
+        #{blogId,jdbcType=BIGINT},
       </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=BIGINT},
+      <if test="typeId != null">
+        #{typeId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.UserRoleExample" resultType="java.lang.Integer">
-    select count(*) from user_role
+  <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.BlogTypeExample" resultType="java.lang.Long">
+    select count(*) from tb_blog_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user_role
+    update tb_blog_type
     <set>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=BIGINT},
+      <if test="record.blogId != null">
+        blog_id = #{record.blogId,jdbcType=BIGINT},
       </if>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=BIGINT},
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -130,9 +130,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user_role
-    set user_id = #{record.userId,jdbcType=BIGINT},
-      role_id = #{record.roleId,jdbcType=BIGINT}
+    update tb_blog_type
+    set blog_id = #{record.blogId,jdbcType=BIGINT},
+      type_id = #{record.typeId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

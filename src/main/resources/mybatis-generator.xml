@@ -28,14 +28,15 @@
         <property name="nullCatalogMeansCurrent" value="true" />
     </jdbcConnection>
     <!--  实体类生成路径  -->
-    <javaModelGenerator targetPackage="site.liuming.truismcms.sys.pojo" targetProject="src/main/java"/>
+    <javaModelGenerator targetPackage="site.liuming.truismcms.web.pojo" targetProject="src/main/java"/>
     <!--  XML生成路径  -->
     <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
     <!--  接口生成路径  -->
-    <javaClientGenerator targetPackage="site.liuming.truismcms.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+    <javaClientGenerator targetPackage="site.liuming.truismcms.web.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
     <!--生成全部表tableName设为%-->
-    <table tableName="supplier">
+    <table tableName="tb_%">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        <domainObjectRenamingRule searchString="^Tb" replaceString="" />
     </table>
 </context>
 </generatorConfiguration>
