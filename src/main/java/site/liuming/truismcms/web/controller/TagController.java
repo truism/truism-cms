@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import site.liuming.truismcms.core.common.UnifyResponse;
+import site.liuming.truismcms.core.common.UnifyResponseFactory;
 import site.liuming.truismcms.dto.PagePojoDto;
 import site.liuming.truismcms.web.pojo.Tag;
 import site.liuming.truismcms.web.service.TagService;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tag")
@@ -21,15 +23,25 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+
+    @GetMapping("/list")
+    public UnifyResponse<List<Tag>> getAllTag() {
+        return tagService.getAllTag();
+    }
+
+    @GetMapping("/name/{tagName}")
+    public UnifyResponse<List<Tag>> getTagByName(@PathVariable String tagName) {
+        return tagService.getTagByName(tagName);
+    }
+
     @ApiOperation(value = "标签列表")
     @GetMapping("/{pageNum}/{pageSize}")
-    public PagePojoDto<Tag> getTagList(
+    public UnifyResponse<PagePojoDto<Tag>> getTagList(
             @PathVariable("pageNum") @Min(value = 0) Integer pageNum,
-            @PathVariable("pageSize") @Min(value = 0) Integer pageSize,
-            String tagName) {
+            @PathVariable("pageSize") @Min(value = 0) Integer pageSize) {
 
-        return tagService.getTagList(pageNum, pageSize, tagName);
-
+        PagePojoDto<Tag> pagePojoDto = tagService.getTagList(pageNum, pageSize);
+        return UnifyResponseFactory.success(pagePojoDto);
     }
 
     @GetMapping("/{id}")

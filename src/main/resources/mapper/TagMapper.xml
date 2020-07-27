@@ -125,7 +125,14 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+
+    <select id="selectAllTag" resultType="site.liuming.truismcms.web.pojo.Tag">
+
+      select * from tb_tag
+
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
     update tb_tag
     <set>
       <if test="record.id != null">

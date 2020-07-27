@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
 import site.liuming.truismcms.dto.PagePojoDto;
@@ -23,21 +24,27 @@ public class TagService {
     private TagMapper tagMapper;
 
     /**
+     * 查询所有的标签
+     * @return
+     */
+    public UnifyResponse<List<Tag>> getAllTag() {
+        List<Tag> tagList = tagMapper.selectAllTag();
+        return UnifyResponseFactory.success(tagList);
+    }
+
+    /**
      * 获取标签列表
      * @param pageNum
      * @param pageSize
-     * @param tagName
      * @return
      */
-    public PagePojoDto<Tag> getTagList(Integer pageNum, Integer pageSize, String tagName) {
+    public PagePojoDto<Tag> getTagList(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TagExample example = new TagExample();
-        if(Objects.nonNull(tagName) || !StringUtils.isEmpty(tagName)) {
-            example.createCriteria().andNameEqualTo(tagName);
-        }
         List<Tag> tagList = tagMapper.selectByExample(example);
         PagePojoDto dto = new PagePojoDto();
-        dto.setTotal((long) tagList.size());
+        long total = tagMapper.countByExample(new TagExample());
+        dto.setTotal(total);
         dto.setPageNum(pageNum);
         dto.setPageSize(pageSize);
         dto.setData(tagList);
@@ -87,4 +94,14 @@ public class TagService {
         return tagMapper.deleteByPrimaryKey(tagId) > 0 ? UnifyResponseFactory.success("删除成功") : UnifyResponseFactory.fail("删除失败");
     }
 
+    /**
+     * 根据名称获取标签
+     * @param tagName
+     * @return
+     */
+    public UnifyResponse<List<Tag>> getTagByName(String tagName) {
+        TagExample example = new TagExample();
+        example.createCriteria().andNameLike("%" + tagName + "%");
+        return UnifyResponseFactory.success(tagMapper.selectByExample(example));
+    }
 }
