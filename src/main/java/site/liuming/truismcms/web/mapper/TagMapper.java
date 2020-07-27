@@ -2,9 +2,11 @@ package site.liuming.truismcms.web.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import site.liuming.truismcms.web.pojo.Tag;
 import site.liuming.truismcms.web.pojo.TagExample;
 
+@Repository
 public interface TagMapper {
     long countByExample(TagExample example);
 

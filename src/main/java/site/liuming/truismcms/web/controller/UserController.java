@@ -35,7 +35,7 @@ public class UserController {
         return UnifyResponseFactory.success("退出成功");
     }
 
-    @PostMapping("/")
+    @PostMapping("/list")
     public UnifyResponse<PagePojoDto<User>> getUserList(@RequestBody PageConditionVo<User> pcv) {
         return userService.getUserList(pcv);
     }
