@@ -1,5 +1,6 @@
 package site.liuming.truismcms.web.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.liuming.truismcms.core.common.UnifyResponse;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/type")
+@Api(value = "分类管理", tags = {"分类管理"})
 public class TypeController {
 
     @Autowired
