@@ -234,7 +234,50 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+
+  <resultMap id="blogList" type="site.liuming.truismcms.web.pojo.Blog" extends="BaseResultMap">
+    <association property="type" javaType="site.liuming.truismcms.web.pojo.Type">
+      <id column="typeID" property="id" />
+      <result column="typeName" property="name" />
+    </association>
+    <collection property="tagList" javaType="java.util.ArrayList" ofType="site.liuming.truismcms.web.pojo.Tag">
+      <id column="tagId" property="id" />
+      <result column="tagName" property="name" />
+    </collection>
+  </resultMap>
+
+  <select id="selectBlogList" resultMap="blogList">
+      select
+        b.*,
+        p.id typeID,
+        p.name typeName,
+        t.id tagId,
+        t.name tagName
+      from
+        tb_blog b
+      inner join tb_type p on b.type_id = p.id
+      inner join tb_blog_tag bt on b.id = bt.blog_id
+      inner join tb_tag t on bt.tag_id = t.id
+      <where>
+        <if test="blogBo.title != null">
+          and b.title like #{blogBo.title}
+        </if>
+        <if test="blogBo.draft != null">
+          and b.draft = #{blogBo.draft}
+        </if>
+        <if test="blogBo.typeId != null">
+          and b.type_id = #{blogBo.typeId}
+        </if>
+        <if test="blogBo.startTime != null and blogBo.endTime != null">
+          and b.update_time between #{blogBo.startTime} and #{blogBo.endTime}
+        </if>
+        <if test="blogBo.tagId != null">
+          and t.id = #{blogBo.tagId}
+        </if>
+      </where>
+  </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
     update tb_blog
     <set>
       <if test="record.id != null">

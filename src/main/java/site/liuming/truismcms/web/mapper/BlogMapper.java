@@ -2,9 +2,12 @@ package site.liuming.truismcms.web.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+import site.liuming.truismcms.bo.BlogBo;
 import site.liuming.truismcms.web.pojo.Blog;
 import site.liuming.truismcms.web.pojo.BlogExample;
 
+@Repository
 public interface BlogMapper {
     long countByExample(BlogExample example);
 
@@ -33,4 +36,6 @@ public interface BlogMapper {
     int updateByPrimaryKeyWithBLOBs(Blog record);
 
     int updateByPrimaryKey(Blog record);
+
+    List<Blog> selectBlogList(@Param("blogBo") BlogBo blogBo);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import site.liuming.truismcms.web.pojo.Blogtag;
 import site.liuming.truismcms.web.pojo.BlogtagExample;
+import site.liuming.truismcms.web.pojo.Tag;
 
 public interface BlogtagMapper {
     long countByExample(BlogtagExample example);
@@ -19,4 +20,6 @@ public interface BlogtagMapper {
     int updateByExampleSelective(@Param("record") Blogtag record, @Param("example") BlogtagExample example);
 
     int updateByExample(@Param("record") Blogtag record, @Param("example") BlogtagExample example);
+
+    List<Tag> selectBlogTags(@Param("id") Long id);
 }

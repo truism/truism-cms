@@ -115,6 +115,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectBlogTags" resultType="site.liuming.truismcms.web.pojo.Tag">
+    select t.* from tb_tag t
+    inner join tb_blog_tag bt on bt.tag_id = t.id
+    where by.blog_id = #{id}
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update tb_blog_tag
     <set>

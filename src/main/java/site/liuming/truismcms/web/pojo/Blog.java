@@ -2,6 +2,7 @@ package site.liuming.truismcms.web.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Blog implements Serializable {
     private Long id;
@@ -30,7 +31,27 @@ public class Blog implements Serializable {
 
     private String content;
 
+    private Type type;
+
+    private List<Tag> tagList;
+
     private static final long serialVersionUID = 1L;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
+    }
 
     public Long getId() {
         return id;
