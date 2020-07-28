@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
+import site.liuming.truismcms.exceptions.ForbiddenUpdateException;
 import site.liuming.truismcms.exceptions.NotFoundException;
 import site.liuming.truismcms.web.mapper.TypeMapper;
 import site.liuming.truismcms.web.pojo.Type;
@@ -52,6 +53,12 @@ public class TypeService {
      */
     @Transactional
     public UnifyResponse<String> addType(Type type) {
+        TypeExample example = new TypeExample();
+        example.createCriteria().andNameEqualTo(type.getName());
+        List<Type> temp = typeMapper.selectByExample(example);
+        if(Objects.nonNull(temp) && temp.size() > 0) {
+            return UnifyResponseFactory.fail("新增失败,名称已存在");
+        }
         return typeMapper.insert(type) > 0 ? UnifyResponseFactory.success("新增成功") : UnifyResponseFactory.fail("新增失败");
     }
 
@@ -62,6 +69,10 @@ public class TypeService {
      */
     @Transactional
     public UnifyResponse<String> updateType(Type type) {
+        Type temp = typeMapper.selectOther(type);
+        if(Objects.nonNull(temp)) {
+            throw new ForbiddenUpdateException(5001);
+        }
         return typeMapper.updateByPrimaryKey(type) > 0 ? UnifyResponseFactory.success("更新成功") : UnifyResponseFactory.fail("更新失败");
     }
 

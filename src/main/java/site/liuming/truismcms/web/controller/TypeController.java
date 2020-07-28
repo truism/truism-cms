@@ -1,6 +1,8 @@
 package site.liuming.truismcms.web.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import site.liuming.truismcms.core.common.UnifyResponse;
@@ -17,8 +19,10 @@ public class TypeController {
     @Autowired
     private TypeService typeService;
 
-    @GetMapping("/list/{name}")
-    public UnifyResponse<List<Type>> getTypeList(@PathVariable String name) {
+    @ApiOperation("获取分类列表")
+    @ApiImplicitParam(name = "name", value = "分类名称", required = false, dataType = "String")
+    @GetMapping("/list")
+    public UnifyResponse<List<Type>> getTypeList(@RequestParam(value = "name", required = false) String name) {
         return typeService.getTypeList(name);
     }
 

@@ -29,4 +29,6 @@ public interface TypeMapper {
     int updateByPrimaryKeySelective(Type record);
 
     int updateByPrimaryKey(Type record);
+
+    Type selectOther(@Param("type") Type type);
 }

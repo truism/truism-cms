@@ -132,7 +132,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="selectOther" resultType="site.liuming.truismcms.web.pojo.Type">
+      select * from tb_type ty where ty.name = #{type.name} and ty.id != #{type.id}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update tb_type
     <set>
       <if test="record.id != null">
