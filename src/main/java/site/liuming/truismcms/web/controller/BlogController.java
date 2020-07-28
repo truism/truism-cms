@@ -25,8 +25,8 @@ public class BlogController {
     }
 
     @PostMapping("/")
-    public UnifyResponse<String> addBlog(@RequestBody Blog blog){
-        return blogService.addBlog(blog);
+    public UnifyResponse<String> addBlog(@RequestBody BlogBo blogBo){
+        return blogService.addBlog(blogBo);
     }
 
     @PutMapping("/")

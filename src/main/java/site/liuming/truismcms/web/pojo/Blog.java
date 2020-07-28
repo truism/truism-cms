@@ -15,7 +15,7 @@ public class Blog implements Serializable {
 
     private Long typeId;
 
-    private String commentCount;
+    private Integer commentCount;
 
     private Long views;
 
@@ -91,11 +91,11 @@ public class Blog implements Serializable {
         this.typeId = typeId;
     }
 
-    public String getCommentCount() {
+    public Integer getCommentCount() {
         return commentCount;
     }
 
-    public void setCommentCount(String commentCount) {
+    public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
 

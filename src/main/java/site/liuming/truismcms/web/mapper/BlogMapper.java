@@ -15,9 +15,9 @@ public interface BlogMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(Blog record);
+    Long insert(Blog record);
 
-    int insertSelective(Blog record);
+    Long insertSelective(Blog record);
 
     List<Blog> selectByExampleWithBLOBs(BlogExample example);
 
@@ -40,4 +40,6 @@ public interface BlogMapper {
     List<Blog> selectBlogList(@Param("blogBo") BlogBo blogBo);
 
     Long count();
+
+    Long addBlog(@Param("blog") Blog blog);
 }

@@ -1,6 +1,5 @@
 package site.liuming.truismcms.bo;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -8,16 +7,28 @@ public class BlogBo {
 
     private String title;
 
+    private String content;
+
     private Long typeId;
+
+    private Boolean source;
 
     private List<Long> tagsId;
 
     private Date updateTime;
 
-    private boolean draft;
+    private Boolean draft;
 
     public BlogBo() {
 
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getTitle() {
@@ -52,7 +63,15 @@ public class BlogBo {
         this.updateTime = updateTime;
     }
 
-    public boolean isDraft() {
+    public Boolean getSource() {
+        return source;
+    }
+
+    public void setSource(Boolean source) {
+        this.source = source;
+    }
+
+    public Boolean getDraft() {
         return draft;
     }
 
@@ -64,7 +83,9 @@ public class BlogBo {
     public String toString() {
         return "BlogBo{" +
                 "title='" + title + '\'' +
+                ", content='" + content + '\'' +
                 ", typeId=" + typeId +
+                ", source=" + source +
                 ", tagsId=" + tagsId +
                 ", updateTime=" + updateTime +
                 ", draft=" + draft +

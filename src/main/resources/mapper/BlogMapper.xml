@@ -7,7 +7,6 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="source" jdbcType="BIT" property="source" />
     <result column="type_id" jdbcType="BIGINT" property="typeId" />
-    <result column="tags_id" jdbcType="VARCHAR" property="tagsId" />
     <result column="comment_count" jdbcType="VARCHAR" property="commentCount" />
     <result column="views" jdbcType="BIGINT" property="views" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -146,7 +145,7 @@
       #{like,jdbcType=BIGINT}, #{draft,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.Blog">
+  <insert id="insertSelective" parameterType="site.liuming.truismcms.web.pojo.Blog" useGeneratedKeys="true" keyProperty="id">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -155,17 +154,11 @@
       <if test="title != null">
         title,
       </if>
-      <if test="description != null">
-        description,
-      </if>
       <if test="source != null">
         source,
       </if>
       <if test="typeId != null">
         type_id,
-      </if>
-      <if test="tagsId != null">
-        tags_id,
       </if>
       <if test="commentCount != null">
         comment_count,
@@ -180,7 +173,7 @@
         publish_time,
       </if>
       <if test="like != null">
-        like,
+        `like`,
       </if>
       <if test="draft != null">
         draft,
@@ -193,17 +186,11 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
       <if test="source != null">
         #{source,jdbcType=BIT},
       </if>
       <if test="typeId != null">
         #{typeId,jdbcType=BIGINT},
-      </if>
-      <if test="tagsId != null">
-        #{tagsId,jdbcType=VARCHAR},
       </if>
       <if test="commentCount != null">
         #{commentCount,jdbcType=VARCHAR},
@@ -228,6 +215,13 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="addBlog">
+
+
+
+  </insert>
+
   <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.BlogExample" resultType="java.lang.Long">
     select count(*) from tb_blog
     <if test="_parameter != null">
@@ -260,9 +254,6 @@
       </if>
       <if test="blogBo.typeId != null">
         and tb.type_id = #{blogBo.typeId}
-      </if>
-      <if test="blogBo.draft != null">
-        and tb.draft = #{blogBo.draft}
       </if>
       <if test="blogBo.updateTime != null">
         and tb.update_time = #{blogBo.updateTime}

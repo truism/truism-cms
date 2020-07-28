@@ -16,9 +16,7 @@ import site.liuming.truismcms.web.mapper.TagMapper;
 import site.liuming.truismcms.web.pojo.Blog;
 import site.liuming.truismcms.web.pojo.Tag;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BlogService {
@@ -98,12 +96,44 @@ public class BlogService {
 
     /**
      * 新增blog
-     * @param blog
+     * @param blogBo
      * @return
      */
     @Transactional
-    public UnifyResponse<String> addBlog(Blog blog) {
-        return blogMapper.insert(blog) > 0 ? UnifyResponseFactory.success("添加成功" ) : UnifyResponseFactory.fail("添加失败");
+    public UnifyResponse<String> addBlog(BlogBo blogBo) {
+        Blog blog = new Blog();
+        String title = blogBo.getTitle();
+        Long typeId = blogBo.getTypeId();
+        List<Long> tagsId = blogBo.getTagsId();
+        if(!Objects.nonNull(title)) {
+            return UnifyResponseFactory.fail("标题不可为空");
+        }
+        if(!Objects.nonNull(typeId)) {
+            return UnifyResponseFactory.fail("分类不可为空");
+        }
+        if(!Objects.nonNull(tagsId)) {
+            return UnifyResponseFactory.fail("最少需要选择一个标签");
+        }
+        blog.setTitle(title);
+        blog.setTypeId(typeId);
+        blog.setUpdateTime(Calendar.getInstance().getTime());
+        blog.setPublishTime(Calendar.getInstance().getTime());
+        blog.setDraft(blogBo.getDraft() == null ? false : true);
+        blog.setSource(blogBo.getSource());
+        blog.setContent(blogBo.getContent());
+        blog.setViews(0L);
+        blog.setLike(0L);
+        blog.setCommentCount(0);
+        Long count = blogMapper.insertSelective(blog);
+        if(!Objects.nonNull(count) || count == 0) {
+            return UnifyResponseFactory.fail("新增失败");
+        }
+        Long blogId= blog.getId();
+        Integer counts = blogtagMapper.addCombination(blogId, tagsId);
+        if(counts <= 0) {
+            return UnifyResponseFactory.fail("新增失败");
+        }
+        return UnifyResponseFactory.success("新增成功");
     }
 
     /**

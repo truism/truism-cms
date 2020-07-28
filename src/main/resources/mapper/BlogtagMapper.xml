@@ -112,6 +112,30 @@
       </if>
     </trim>
   </insert>
+  <insert id="addCombination">
+    insert into tb_blog_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="tagsId != null">
+        tag_id,
+      </if>
+    </trim>
+    values
+    <foreach collection="tagsId" separator="," item="tagId">
+      <trim prefix="(" suffix=")">
+
+        <if test="blogId != null">
+          #{blogId,jdbcType=BIGINT},
+        </if>
+        <if test="tagId != null">
+          #{tagId,jdbcType=BIGINT}
+        </if>
+      </trim>
+    </foreach>
+
+  </insert>
   <select id="countByExample" parameterType="site.liuming.truismcms.web.pojo.BlogtagExample" resultType="java.lang.Long">
     select count(*) from tb_blog_tag
     <if test="_parameter != null">
