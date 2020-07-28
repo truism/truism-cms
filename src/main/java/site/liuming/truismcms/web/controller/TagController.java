@@ -29,8 +29,8 @@ public class TagController {
         return tagService.getAllTag();
     }
 
-    @GetMapping("/name/{tagName}")
-    public UnifyResponse<List<Tag>> getTagByName(@PathVariable String tagName) {
+    @GetMapping("/name")
+    public UnifyResponse<List<Tag>> getTagByName(@RequestParam(value = "name", required = false) String tagName) {
         return tagService.getTagByName(tagName);
     }
 

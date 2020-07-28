@@ -19,6 +19,11 @@ public class TypeController {
     @Autowired
     private TypeService typeService;
 
+    @GetMapping("/all")
+    public UnifyResponse<List<Type>> getAllType() {
+        return typeService.getAll();
+    }
+
     @ApiOperation("获取分类列表")
     @ApiImplicitParam(name = "name", value = "分类名称", required = false, dataType = "String")
     @GetMapping("/list")

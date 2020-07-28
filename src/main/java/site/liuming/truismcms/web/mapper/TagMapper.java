@@ -31,4 +31,6 @@ public interface TagMapper {
     int updateByPrimaryKey(Tag record);
 
     List<Tag> selectAllTag();
+
+    List<Tag> selectTagByBlogId(@Param("id") Long id);
 }

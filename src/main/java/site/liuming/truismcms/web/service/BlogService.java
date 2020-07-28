@@ -11,8 +11,13 @@ import site.liuming.truismcms.dto.PagePojoDto;
 import site.liuming.truismcms.exceptions.NotFoundException;
 import site.liuming.truismcms.vo.PageConditionVo;
 import site.liuming.truismcms.web.mapper.BlogMapper;
+import site.liuming.truismcms.web.mapper.BlogtagMapper;
+import site.liuming.truismcms.web.mapper.TagMapper;
 import site.liuming.truismcms.web.pojo.Blog;
+import site.liuming.truismcms.web.pojo.Tag;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -20,6 +25,12 @@ public class BlogService {
 
     @Autowired
     private BlogMapper blogMapper;
+
+    @Autowired
+    private TagMapper tagMapper;
+
+    @Autowired
+    private BlogtagMapper blogtagMapper;
 
     /**
      * 查询已发布的博客
@@ -30,8 +41,20 @@ public class BlogService {
         PagePojoDto<Blog> result = new PagePojoDto<>();
         PageHelper.startPage(pcv.getPageNum(), pcv.getPageSize());
         BlogBo conditionBlog = pcv.getParamMap();
+        Long count = blogMapper.count();
         List<Blog> blogList = blogMapper.selectBlogList(conditionBlog);
-        result.setTotal((long) blogList.size());
+        Iterator<Blog> iterator = blogList.iterator();
+        while (iterator.hasNext()) {
+            Blog blog =iterator.next();
+            List<Tag> tagList = tagMapper.selectTagByBlogId(blog.getId());
+            blog.setTagList(tagList);
+            List<Long> tagsId = pcv.getParamMap().getTagsId();
+            if(tagsId.size() != 0 && !containsSubArray(tagList, tagsId)) {
+                iterator.remove();
+                continue;
+            }
+        }
+        result.setTotal(count);
         result.setPageNum(pcv.getPageNum());
         result.setPageSize(pcv.getPageSize());
         result.setData(blogList);
@@ -68,6 +91,7 @@ public class BlogService {
      */
     @Transactional
     public UnifyResponse<String> deleteBlog(Long id) {
+        blogtagMapper.deleteAboutTag(id);
         return blogMapper.deleteByPrimaryKey(id) > 0 ? UnifyResponseFactory.success("删除成功" ) : UnifyResponseFactory.fail("删除失败");
     }
 
@@ -80,5 +104,22 @@ public class BlogService {
     @Transactional
     public UnifyResponse<String> addBlog(Blog blog) {
         return blogMapper.insert(blog) > 0 ? UnifyResponseFactory.success("添加成功" ) : UnifyResponseFactory.fail("添加失败");
+    }
+
+    /**
+     * 判断标签列表是否包含子标签数组
+     * @return
+     */
+    private boolean containsSubArray(List<Tag> tagList, List<Long> tagsId) {
+        HashSet<Long> set = new HashSet<>(tagList.size());
+        for (int i = 0; i < tagList.size(); i++) {
+            set.add(tagList.get(i).getId());
+        }
+        for (int i=0; i< tagsId.size(); i++) {
+            if(set.add(tagsId.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

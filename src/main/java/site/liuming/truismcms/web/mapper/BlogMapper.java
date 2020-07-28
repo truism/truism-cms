@@ -38,4 +38,6 @@ public interface BlogMapper {
     int updateByPrimaryKey(Blog record);
 
     List<Blog> selectBlogList(@Param("blogBo") BlogBo blogBo);
+
+    Long count();
 }

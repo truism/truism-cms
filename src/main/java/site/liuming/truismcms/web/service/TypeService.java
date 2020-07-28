@@ -88,9 +88,12 @@ public class TypeService {
     }
 
 
-
-
-
-
-
+    /**
+     * 获取所有type
+     * @return
+     */
+    public UnifyResponse<List<Type>> getAll() {
+        List<Type> typeList = typeMapper.selectAll();
+        return UnifyResponseFactory.success(typeList);
+    }
 }

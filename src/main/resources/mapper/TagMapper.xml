@@ -131,8 +131,11 @@
       select * from tb_tag
 
     </select>
+  <select id="selectTagByBlogId" resultType="site.liuming.truismcms.web.pojo.Tag">
+    select tg.* from tb_tag tg inner join tb_blog_tag tbg on tg.id = tbg.tag_id where tbg.blog_id = #{id}
+  </select>
 
-    <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map">
     update tb_tag
     <set>
       <if test="record.id != null">

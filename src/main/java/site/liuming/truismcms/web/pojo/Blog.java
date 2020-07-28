@@ -15,8 +15,6 @@ public class Blog implements Serializable {
 
     private Long typeId;
 
-    private String tagsId;
-
     private String commentCount;
 
     private Long views;
@@ -93,14 +91,6 @@ public class Blog implements Serializable {
         this.typeId = typeId;
     }
 
-    public String getTagsId() {
-        return tagsId;
-    }
-
-    public void setTagsId(String tagsId) {
-        this.tagsId = tagsId;
-    }
-
     public String getCommentCount() {
         return commentCount;
     }
@@ -168,7 +158,6 @@ public class Blog implements Serializable {
         sb.append(", description=").append(description);
         sb.append(", source=").append(source);
         sb.append(", typeId=").append(typeId);
-        sb.append(", tagsId=").append(tagsId);
         sb.append(", commentCount=").append(commentCount);
         sb.append(", views=").append(views);
         sb.append(", updateTime=").append(updateTime);

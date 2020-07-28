@@ -31,4 +31,6 @@ public interface TypeMapper {
     int updateByPrimaryKey(Type record);
 
     Type selectOther(@Param("type") Type type);
+
+    List<Type> selectAll();
 }

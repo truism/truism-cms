@@ -86,7 +86,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Blogtag">
+    <delete id="deleteAboutTag">
+      delete from tb_blog_tag where tb_blog_tag.blog_id = #{id}
+    </delete>
+    <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Blogtag">
     insert into tb_blog_tag (blog_id, tag_id)
     values (#{blogId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT})
   </insert>

@@ -1,6 +1,8 @@
 package site.liuming.truismcms.bo;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class BlogBo {
 
@@ -8,11 +10,9 @@ public class BlogBo {
 
     private Long typeId;
 
-    private Long tagId;
+    private List<Long> tagsId;
 
-    private Date startTime;
-
-    private Date endTime;
+    private Date updateTime;
 
     private boolean draft;
 
@@ -36,28 +36,20 @@ public class BlogBo {
         this.typeId = typeId;
     }
 
-    public Long getTagsId() {
-        return tagId;
+    public List<Long> getTagsId() {
+        return tagsId;
     }
 
-    public void setTagsId(Long tagId) {
-        this.tagId = tagId;
+    public void setTagsId(List<Long> tagsId) {
+        this.tagsId = tagsId;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public boolean isDraft() {
@@ -73,9 +65,8 @@ public class BlogBo {
         return "BlogBo{" +
                 "title='" + title + '\'' +
                 ", typeId=" + typeId +
-                ", tagsId=" + tagId +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                ", tagsId=" + tagsId +
+                ", updateTime=" + updateTime +
                 ", draft=" + draft +
                 '}';
     }
