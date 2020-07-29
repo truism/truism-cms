@@ -42,4 +42,6 @@ public interface BlogMapper {
     Long count();
 
     Long addBlog(@Param("blog") Blog blog);
+
+    Long selectByTypeId(@Param("id") Long id);
 }

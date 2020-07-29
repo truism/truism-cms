@@ -25,7 +25,11 @@ public interface BlogtagMapper {
 
     List<Tag> selectBlogTags(@Param("id") Long id);
 
-    void deleteAboutTag(@Param("id") Long id);
+    int deleteAboutTag(@Param("id") Long id);
 
     Integer addCombination(@Param("blogId") Long blogId, @Param("tagsId") List<Long> tagsId);
+
+    List<Long> selectTagsid(@Param("id") Long id);
+
+    Long countBlogs(@Param("id") Long tagId);
 }

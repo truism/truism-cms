@@ -11,7 +11,7 @@ public class Blog implements Serializable {
 
     private String description;
 
-    private Boolean source;
+    private Integer source;
 
     private Long typeId;
 
@@ -75,11 +75,11 @@ public class Blog implements Serializable {
         this.description = description;
     }
 
-    public Boolean getSource() {
+    public Integer getSource() {
         return source;
     }
 
-    public void setSource(Boolean source) {
+    public void setSource(Integer source) {
         this.source = source;
     }
 

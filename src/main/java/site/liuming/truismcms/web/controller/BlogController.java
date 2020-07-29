@@ -30,8 +30,8 @@ public class BlogController {
     }
 
     @PutMapping("/")
-    public UnifyResponse<String> updateBlog(@RequestBody Blog blog) {
-        return blogService.updateById(blog);
+    public UnifyResponse<String> updateBlog(@RequestBody BlogBo blogBo) {
+        return blogService.updateById(blogBo);
     }
 
     @DeleteMapping("/{id}")
@@ -40,7 +40,7 @@ public class BlogController {
     }
 
     @GetMapping("/{id}")
-    public UnifyResponse<Blog> getBlogById(@PathVariable Long id) {
+    public UnifyResponse<BlogBo> getBlogById(@PathVariable Long id) {
         return blogService.getBlogById(id);
     }
 

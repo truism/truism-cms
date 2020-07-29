@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
 import site.liuming.truismcms.dto.PagePojoDto;
+import site.liuming.truismcms.exceptions.BadOperateException;
 import site.liuming.truismcms.exceptions.NotFoundException;
+import site.liuming.truismcms.web.mapper.BlogtagMapper;
 import site.liuming.truismcms.web.mapper.TagMapper;
 import site.liuming.truismcms.web.pojo.Tag;
 import site.liuming.truismcms.web.pojo.TagExample;
@@ -22,6 +24,9 @@ public class TagService {
 
     @Autowired
     private TagMapper tagMapper;
+
+    @Autowired
+    private BlogtagMapper blogtagMapper;
 
     /**
      * 查询所有的标签
@@ -91,6 +96,10 @@ public class TagService {
      */
     @Transactional
     public UnifyResponse<String> deleteTagById(Long tagId) {
+        Long count = blogtagMapper.countBlogs(tagId);
+        if(count > 0) {
+            throw new BadOperateException(7002);
+        }
         return tagMapper.deleteByPrimaryKey(tagId) > 0 ? UnifyResponseFactory.success("删除成功") : UnifyResponseFactory.fail("删除失败");
     }
 

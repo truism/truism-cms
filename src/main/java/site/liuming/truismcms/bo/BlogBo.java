@@ -5,13 +5,15 @@ import java.util.List;
 
 public class BlogBo {
 
+    private Long id;
+
     private String title;
 
     private String content;
 
     private Long typeId;
 
-    private Boolean source;
+    private Integer source;
 
     private List<Long> tagsId;
 
@@ -21,6 +23,14 @@ public class BlogBo {
 
     public BlogBo() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -63,11 +73,11 @@ public class BlogBo {
         this.updateTime = updateTime;
     }
 
-    public Boolean getSource() {
+    public Integer getSource() {
         return source;
     }
 
-    public void setSource(Boolean source) {
+    public void setSource(Integer source) {
         this.source = source;
     }
 

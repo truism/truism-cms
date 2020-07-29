@@ -86,10 +86,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-    <delete id="deleteAboutTag">
+
+  <delete id="deleteAboutTag">
       delete from tb_blog_tag where tb_blog_tag.blog_id = #{id}
-    </delete>
-    <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Blogtag">
+  </delete>
+
+  <insert id="insert" parameterType="site.liuming.truismcms.web.pojo.Blogtag">
     insert into tb_blog_tag (blog_id, tag_id)
     values (#{blogId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT})
   </insert>
@@ -147,6 +149,15 @@
     inner join tb_blog_tag bt on bt.tag_id = t.id
     where by.blog_id = #{id}
   </select>
+
+  <select id="selectTagsid" resultType="java.lang.Long">
+    select tag_id from tb_blog_tag where blog_id = #{id}
+  </select>
+
+  <select id="countBlogs" resultType="java.lang.Long">
+    select count(blog_id) from tb_blog_tag where tag_id = #{id}
+  </select>
+
   <update id="updateByExampleSelective" parameterType="map">
     update tb_blog_tag
     <set>
@@ -161,6 +172,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
   <update id="updateByExample" parameterType="map">
     update tb_blog_tag
     set blog_id = #{record.blogId,jdbcType=BIGINT},
@@ -169,4 +181,5 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
 </mapper>

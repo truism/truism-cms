@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
+import site.liuming.truismcms.exceptions.BadOperateException;
 import site.liuming.truismcms.exceptions.ForbiddenUpdateException;
 import site.liuming.truismcms.exceptions.NotFoundException;
+import site.liuming.truismcms.web.mapper.BlogMapper;
 import site.liuming.truismcms.web.mapper.TypeMapper;
 import site.liuming.truismcms.web.pojo.Type;
 import site.liuming.truismcms.web.pojo.TypeExample;
@@ -19,6 +21,9 @@ public class TypeService {
 
     @Autowired
     private TypeMapper typeMapper;
+
+    @Autowired
+    private BlogMapper blogMapper;
 
     /**
      * 获取type列表
@@ -84,6 +89,11 @@ public class TypeService {
      */
     @Transactional
     public UnifyResponse<String> deleteType(Long id) {
+        // 判断是否有博客与分类关联
+        Long count = blogMapper.selectByTypeId(id);
+        if(count > 0) {
+            throw new BadOperateException(9002);
+        }
         return typeMapper.deleteByPrimaryKey(id) > 0 ? UnifyResponseFactory.success("删除成功") : UnifyResponseFactory.fail("删除失败");
     }
 

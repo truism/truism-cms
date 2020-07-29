@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="source" jdbcType="BIT" property="source" />
+    <result column="source" jdbcType="BIGINT" property="source" />
     <result column="type_id" jdbcType="BIGINT" property="typeId" />
     <result column="comment_count" jdbcType="VARCHAR" property="commentCount" />
     <result column="views" jdbcType="BIGINT" property="views" />
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, description, source, type_id, tags_id, comment_count, views, update_time, 
-    publish_time, like, draft
+    id, title, source, type_id, comment_count, views, update_time,
+    publish_time, `like`, draft
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -139,7 +139,7 @@
       views, update_time, publish_time, 
       like, draft, content
       )
-    values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{source,jdbcType=BIT}, 
+    values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{source,jdbcType=BIGINT},
       #{typeId,jdbcType=BIGINT}, #{tagsId,jdbcType=VARCHAR}, #{commentCount,jdbcType=VARCHAR}, 
       #{views,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{publishTime,jdbcType=TIMESTAMP}, 
       #{like,jdbcType=BIGINT}, #{draft,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
@@ -187,7 +187,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="source != null">
-        #{source,jdbcType=BIT},
+        #{source,jdbcType=BIGINT},
       </if>
       <if test="typeId != null">
         #{typeId,jdbcType=BIGINT},
@@ -264,6 +264,10 @@
     select count(id) from tb_blog
   </select>
 
+  <select id="selectByTypeId" resultType="java.lang.Long">
+    select count(id) from tb_blog where type_id = #{id}
+  </select>
+
   <update id="updateByExampleSelective" parameterType="map">
     update tb_blog
     <set>
@@ -277,7 +281,7 @@
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.source != null">
-        source = #{record.source,jdbcType=BIT},
+        source = #{record.source,jdbcType=BIGINT},
       </if>
       <if test="record.typeId != null">
         type_id = #{record.typeId,jdbcType=BIGINT},
@@ -316,7 +320,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      source = #{record.source,jdbcType=BIT},
+      source = #{record.source,jdbcType=BIGINT},
       type_id = #{record.typeId,jdbcType=BIGINT},
       tags_id = #{record.tagsId,jdbcType=VARCHAR},
       comment_count = #{record.commentCount,jdbcType=VARCHAR},
@@ -335,7 +339,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      source = #{record.source,jdbcType=BIT},
+      source = #{record.source,jdbcType=BIGINT},
       type_id = #{record.typeId,jdbcType=BIGINT},
       tags_id = #{record.tagsId,jdbcType=VARCHAR},
       comment_count = #{record.commentCount,jdbcType=VARCHAR},
@@ -358,7 +362,7 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="source != null">
-        source = #{source,jdbcType=BIT},
+        source = #{source,jdbcType=BIGINT},
       </if>
       <if test="typeId != null">
         type_id = #{typeId,jdbcType=BIGINT},
@@ -394,7 +398,7 @@
     update tb_blog
     set title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      source = #{source,jdbcType=BIT},
+      source = #{source,jdbcType=BIGINT},
       type_id = #{typeId,jdbcType=BIGINT},
       tags_id = #{tagsId,jdbcType=VARCHAR},
       comment_count = #{commentCount,jdbcType=VARCHAR},
@@ -409,15 +413,14 @@
   <update id="updateByPrimaryKey" parameterType="site.liuming.truismcms.web.pojo.Blog">
     update tb_blog
     set title = #{title,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      source = #{source,jdbcType=BIT},
+      content= #{content, jdbcType=LONGVARCHAR},
+      source = #{source,jdbcType=BIGINT},
       type_id = #{typeId,jdbcType=BIGINT},
-      tags_id = #{tagsId,jdbcType=VARCHAR},
       comment_count = #{commentCount,jdbcType=VARCHAR},
       views = #{views,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      like = #{like,jdbcType=BIGINT},
+      `like` = #{like,jdbcType=BIGINT},
       draft = #{draft,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>

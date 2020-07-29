@@ -1,6 +1,7 @@
 package site.liuming.truismcms.web.service;
 
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
 import site.liuming.truismcms.dto.PagePojoDto;
 import site.liuming.truismcms.exceptions.NotFoundException;
+import site.liuming.truismcms.exceptions.ParameterException;
 import site.liuming.truismcms.vo.PageConditionVo;
 import site.liuming.truismcms.web.mapper.BlogMapper;
 import site.liuming.truismcms.web.mapper.BlogtagMapper;
@@ -64,21 +66,42 @@ public class BlogService {
      * @param id
      * @return
      */
-    public UnifyResponse<Blog> getBlogById(Long id) {
+    public UnifyResponse<BlogBo> getBlogById(Long id) {
+        if(!Objects.nonNull(id)) {
+            throw new ParameterException(2001);
+        }
         Blog blog = blogMapper.selectByPrimaryKey(id);
+        List<Long> tagsId = blogtagMapper.selectTagsid(id);
+        BlogBo blogBo = new BlogBo();
+        blogBo.setTitle(blog.getTitle());
+        blogBo.setContent(blog.getContent());
+        blogBo.setDraft(true);
+        blogBo.setSource(blog.getSource());
+        blogBo.setTagsId(tagsId);
+        blogBo.setTypeId(blog.getTypeId());
+
         if(blog != null) {
-            return UnifyResponseFactory.success(blog);
+            return UnifyResponseFactory.success(blogBo);
         }
         throw new NotFoundException(8001);
     }
 
     /**
      * 更新blog
-     * @param blog
+     * @param blogBo
      * @return
      */
     @Transactional
-    public UnifyResponse<String> updateById(Blog blog) {
+    public UnifyResponse<String> updateById(BlogBo blogBo) {
+        int count = blogtagMapper.deleteAboutTag(blogBo.getId());
+        if(count <= 0) {
+            throw new ParameterException(8001);
+        }
+        blogtagMapper.addCombination(blogBo.getId(), blogBo.getTagsId());
+        Blog blog = new Blog();
+        BeanUtils.copyProperties(blogBo, blog);
+        blog.setUpdateTime(Calendar.getInstance().getTime());
+        blog.setPublishTime(Calendar.getInstance().getTime());
         return blogMapper.updateByPrimaryKey(blog) > 0 ? UnifyResponseFactory.success("更新成功" ) : UnifyResponseFactory.fail("更新失败");
     }
 
