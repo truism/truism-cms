@@ -175,4 +175,15 @@ public class BlogService {
         }
         return true;
     }
+
+    /**
+     * 前台首页获取博客列表
+     * @param page
+     * @return
+     */
+    public UnifyResponse<List<Blog>> getBlogListByPage(int page) {
+        PageHelper.startPage(page, 10);
+        List<Blog> blogList = blogMapper.selectBlogListByPage();
+        return UnifyResponseFactory.success(blogList);
+    }
 }

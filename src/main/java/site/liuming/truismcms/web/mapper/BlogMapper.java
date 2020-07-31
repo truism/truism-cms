@@ -44,4 +44,6 @@ public interface BlogMapper {
     Long addBlog(@Param("blog") Blog blog);
 
     Long selectByTypeId(@Param("id") Long id);
+
+    List<Blog> selectBlogListByPage();
 }

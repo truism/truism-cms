@@ -268,7 +268,11 @@
     select count(id) from tb_blog where type_id = #{id}
   </select>
 
-  <update id="updateByExampleSelective" parameterType="map">
+  <select id="selectBlogListByPage" resultType="site.liuming.truismcms.web.pojo.Blog">
+      select id, title, update_time updateTime from tb_blog where draft != false
+  </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
     update tb_blog
     <set>
       <if test="record.id != null">
@@ -277,17 +281,11 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
       <if test="record.source != null">
         source = #{record.source,jdbcType=BIGINT},
       </if>
       <if test="record.typeId != null">
         type_id = #{record.typeId,jdbcType=BIGINT},
-      </if>
-      <if test="record.tagsId != null">
-        tags_id = #{record.tagsId,jdbcType=VARCHAR},
       </if>
       <if test="record.commentCount != null">
         comment_count = #{record.commentCount,jdbcType=VARCHAR},

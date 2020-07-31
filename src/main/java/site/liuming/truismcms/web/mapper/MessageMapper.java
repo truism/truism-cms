@@ -2,9 +2,11 @@ package site.liuming.truismcms.web.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import site.liuming.truismcms.web.pojo.Message;
 import site.liuming.truismcms.web.pojo.MessageExample;
 
+@Repository
 public interface MessageMapper {
     long countByExample(MessageExample example);
 

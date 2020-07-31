@@ -10,6 +10,8 @@ import site.liuming.truismcms.vo.PageConditionVo;
 import site.liuming.truismcms.web.pojo.Blog;
 import site.liuming.truismcms.web.service.BlogService;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/blog")
@@ -39,8 +41,18 @@ public class BlogController {
         return blogService.deleteBlog(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public UnifyResponse<BlogBo> getBlogById(@PathVariable Long id) {
+        return blogService.getBlogById(id);
+    }
+
+    @GetMapping("/list/{page}")
+    public UnifyResponse<List<Blog>> getBlogListByPage(@PathVariable("page") int page) {
+        return blogService.getBlogListByPage(page);
+    }
+
+    @GetMapping("/{id}")
+    public UnifyResponse<BlogBo> getBlogByIdCMS(@PathVariable Long id) {
         return blogService.getBlogById(id);
     }
 
