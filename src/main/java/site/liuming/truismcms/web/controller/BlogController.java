@@ -36,6 +36,11 @@ public class BlogController {
         return blogService.updateById(blogBo);
     }
 
+    @PostMapping("/save")
+    public UnifyResponse<String> saveDraft(@RequestBody BlogBo blogBo) {
+        return blogService.saveDraft(blogBo);
+    }
+
     @DeleteMapping("/{id}")
     public UnifyResponse<String> deleteBlog(@PathVariable("id") Long id) {
         return blogService.deleteBlog(id);

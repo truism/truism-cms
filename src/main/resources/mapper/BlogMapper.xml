@@ -134,13 +134,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_blog (title, description, source, 
-      type_id, tags_id, comment_count, 
+    insert into tb_blog (title, source,
+      type_id, comment_count,
       views, update_time, publish_time, 
-      like, draft, content
+      `like`, draft, content
       )
-    values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{source,jdbcType=BIGINT},
-      #{typeId,jdbcType=BIGINT}, #{tagsId,jdbcType=VARCHAR}, #{commentCount,jdbcType=VARCHAR}, 
+    values (#{title,jdbcType=VARCHAR},  #{source,jdbcType=BIGINT},
+      #{typeId,jdbcType=BIGINT}, #{commentCount,jdbcType=VARCHAR},
       #{views,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{publishTime,jdbcType=TIMESTAMP}, 
       #{like,jdbcType=BIGINT}, #{draft,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )

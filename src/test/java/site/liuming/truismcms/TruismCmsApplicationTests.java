@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TruismCmsApplicationTests {
+public class TruismCmsApplicationTests {
 
     @Test
     void contextLoads() {

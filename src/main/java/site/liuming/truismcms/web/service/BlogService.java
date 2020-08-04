@@ -4,11 +4,13 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import site.liuming.truismcms.bo.BlogBo;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
 import site.liuming.truismcms.dto.PagePojoDto;
+import site.liuming.truismcms.exceptions.BadOperateException;
 import site.liuming.truismcms.exceptions.NotFoundException;
 import site.liuming.truismcms.exceptions.ParameterException;
 import site.liuming.truismcms.vo.PageConditionVo;
@@ -91,9 +93,16 @@ public class BlogService {
      * @param blogBo
      * @return
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public UnifyResponse<String> updateById(BlogBo blogBo) {
-        int count = blogtagMapper.deleteAboutTag(blogBo.getId());
+
+        Long blogId = blogBo.getId();
+
+        if(blogId == null) {
+            return saveDraft(blogBo);
+        }
+
+        int count = blogtagMapper.deleteAboutTag(blogId);
         if(count <= 0) {
             throw new ParameterException(8001);
         }
@@ -110,7 +119,7 @@ public class BlogService {
      * @param id
      * @return
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public UnifyResponse<String> deleteBlog(Long id) {
         blogtagMapper.deleteAboutTag(id);
         return blogMapper.deleteByPrimaryKey(id) > 0 ? UnifyResponseFactory.success("删除成功" ) : UnifyResponseFactory.fail("删除失败");
@@ -122,7 +131,7 @@ public class BlogService {
      * @param blogBo
      * @return
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public UnifyResponse<String> addBlog(BlogBo blogBo) {
         Blog blog = new Blog();
         String title = blogBo.getTitle();
@@ -141,13 +150,18 @@ public class BlogService {
         blog.setTypeId(typeId);
         blog.setUpdateTime(Calendar.getInstance().getTime());
         blog.setPublishTime(Calendar.getInstance().getTime());
-        blog.setDraft(blogBo.getDraft() == null ? false : true);
+        blog.setDraft(blogBo.getDraft());
         blog.setSource(blogBo.getSource());
         blog.setContent(blogBo.getContent());
         blog.setViews(0L);
         blog.setLike(0L);
         blog.setCommentCount(0);
-        Long count = blogMapper.insertSelective(blog);
+        Long count = 0L;
+        if(blogBo.getId() != null) {
+            return updateById(blogBo);
+        }else {
+            count = blogMapper.insertSelective(blog);
+        }
         if(!Objects.nonNull(count) || count == 0) {
             return UnifyResponseFactory.fail("新增失败");
         }
@@ -185,5 +199,27 @@ public class BlogService {
         PageHelper.startPage(page, 10);
         List<Blog> blogList = blogMapper.selectBlogListByPage();
         return UnifyResponseFactory.success(blogList);
+    }
+
+    /**
+     * 保存草稿
+     * @param blogBo
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UnifyResponse<String> saveDraft(BlogBo blogBo) {
+        Blog blog = new Blog();
+        BeanUtils.copyProperties(blogBo, blog);
+        blog.setDraft(false);
+        blog.setUpdateTime(Calendar.getInstance().getTime());
+        blog.setPublishTime(Calendar.getInstance().getTime());
+        Long count = blogMapper.insert(blog);
+        if(count == 0) {
+            throw new BadOperateException(5001);
+        }
+        Long blogId = blog.getId();
+        // 更新标签关系
+        blogtagMapper.addCombination(blogId, blogBo.getTagsId());
+        return count > 0 ? UnifyResponseFactory.success("保存成功") : UnifyResponseFactory.fail("保存失败");
     }
 }
