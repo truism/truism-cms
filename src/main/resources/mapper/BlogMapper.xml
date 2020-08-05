@@ -269,7 +269,7 @@
   </select>
 
   <select id="selectBlogListByPage" resultType="site.liuming.truismcms.web.pojo.Blog">
-      select id, title, update_time updateTime from tb_blog where draft != false
+      select id, title, update_time updateTime from tb_blog where draft != false order by update_time desc
   </select>
 
     <update id="updateByExampleSelective" parameterType="map">
