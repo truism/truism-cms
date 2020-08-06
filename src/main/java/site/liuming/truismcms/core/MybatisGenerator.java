@@ -1,4 +1,4 @@
-package site.liuming.truismcms;
+package site.liuming.truismcms.core;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;

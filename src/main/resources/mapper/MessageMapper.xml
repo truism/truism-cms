@@ -178,7 +178,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+
+  <select id="getList" resultType="site.liuming.truismcms.web.pojo.Message">
+    select * from tb_message tm where tm.reply = 0 order by publish_time desc
+  </select>
+
+    <update id="updateByExampleSelective" parameterType="map">
     update tb_message
     <set>
       <if test="record.id != null">
@@ -264,5 +269,8 @@
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
       reply = #{reply,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="replyMessage">
+    update tb_message set reply = 1 where id = #{id}
   </update>
 </mapper>

@@ -35,4 +35,8 @@ public interface MessageMapper {
     int updateByPrimaryKeyWithBLOBs(Message record);
 
     int updateByPrimaryKey(Message record);
+
+    List<Message> getList();
+
+    int replyMessage(@Param("id")Integer id);
 }
