@@ -38,5 +38,5 @@ public interface MessageMapper {
 
     List<Message> getList();
 
-    int replyMessage(@Param("id")Integer id);
+    int replyMessage(@Param("id")Long id);
 }

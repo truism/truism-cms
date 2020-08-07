@@ -180,7 +180,7 @@
   </select>
 
   <select id="getList" resultType="site.liuming.truismcms.web.pojo.Message">
-    select * from tb_message tm where tm.reply = 0 order by publish_time desc
+    select id, username, user_email userEmail, content, publish_time publishTime, reply from tb_message tm order by publish_time desc
   </select>
 
     <update id="updateByExampleSelective" parameterType="map">
@@ -271,6 +271,8 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="replyMessage">
-    update tb_message set reply = 1 where id = #{id}
+    update tb_message set
+    reply = 1
+    where id = #{id}
   </update>
 </mapper>

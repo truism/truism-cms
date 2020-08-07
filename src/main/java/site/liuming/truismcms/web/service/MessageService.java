@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.liuming.truismcms.core.common.UnifyResponse;
 import site.liuming.truismcms.core.common.UnifyResponseFactory;
+import site.liuming.truismcms.dto.PagePojoDto;
 import site.liuming.truismcms.web.mapper.MessageMapper;
 import site.liuming.truismcms.web.pojo.Message;
+import site.liuming.truismcms.web.pojo.MessageExample;
 
 import java.util.Calendar;
 import java.util.List;
@@ -46,12 +48,22 @@ public class MessageService {
      * @param pageNum
      * @return
      */
-    public UnifyResponse<List<Message>> getMessageList(Integer pageNum) {
+    public UnifyResponse<PagePojoDto<Message>> getMessageList(Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
 
         List<Message> messageList = messageMapper.getList();
 
-        return UnifyResponseFactory.success(messageList);
+        long count = messageMapper.countByExample(new MessageExample());
+
+        PagePojoDto<Message> pagePojoDto = new PagePojoDto<>();
+
+        pagePojoDto.setData(messageList);
+        pagePojoDto.setPageSize(pageSize);
+        pagePojoDto.setPageNum(pageNum);
+        pagePojoDto.setTotal(count);
+
+
+        return UnifyResponseFactory.success(pagePojoDto);
 
     }
 
@@ -60,11 +72,21 @@ public class MessageService {
      * @param id
      * @return
      */
-    public UnifyResponse<String> replyMessage(Integer id) {
+    @Transactional
+    public UnifyResponse<String> replyMessage(Long id) {
         if( !Objects.nonNull(id)) {
             return UnifyResponseFactory.fail("此留言不存在");
         }
         int count = messageMapper.replyMessage(id);
         return count > 0 ? UnifyResponseFactory.success("回复成功") : UnifyResponseFactory.fail("回复失败");
+    }
+
+
+    @Transactional
+    public UnifyResponse<String> deleteMessage(Long id) {
+        if( !Objects.nonNull(id)) {
+            return UnifyResponseFactory.fail("此留言不存在");
+        }
+        return messageMapper.deleteByPrimaryKey(id) > 0 ? UnifyResponseFactory.success("删除成功") : UnifyResponseFactory.fail("删除失败");
     }
 }
